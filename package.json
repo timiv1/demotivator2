@@ -15,6 +15,14 @@
     "commands": [{
       "command": "demotivator2.helloWorld",
       "title": "Hello World"
+    },
+    {
+      "command": "extension.removeSemicolons",
+      "title": "Remove Semicolumns"
+    },
+    {
+      "command": "extension.replaceVariablesWithFunnyNames",
+      "title": "Replace Words With Funny Names"
     }]
   },
   "scripts": {
