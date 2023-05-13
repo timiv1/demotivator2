@@ -9,7 +9,7 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": ["onDebug"],
+  "activationEvents": ["*"],
   "main": "./extension.js",
   "contributes": {
     "commands": [{
