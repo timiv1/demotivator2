@@ -100,6 +100,9 @@ function activate(context) {
 	setInterval(playRandomSound, 15000); 
 
 	context.subscriptions.push(disposable,debug_start);
+	  setInterval(playRandomSound, 15000); 
+
+	context.subscriptions.push(disposable, debug_start, removeSemicolonsCommand,replaceVariablesWithFunnyNamesCommand);
 }
 
 function read_output() { }
