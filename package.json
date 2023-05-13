@@ -12,7 +12,6 @@
   "activationEvents": ["onStartupFinished"],
   "main": "./extension.js",
   "contributes": {
-<<<<<<< HEAD
     "commands": [{
       "command": "demotivator2.helloWorld",
       "title": "Hello World"
@@ -25,14 +24,6 @@
       "command": "extension.replaceVariablesWithFunnyNames",
       "title": "Replace Words With Funny Names"
     }]
-=======
-    "commands": [
-      {
-        "command": "demotivator2.helloWorld",
-        "title": "Hello World"
-      }
-    ]
->>>>>>> 8171a638e9bf8d1ea6be3b7d9ef8a53944d50999
   },
   "scripts": {
     "lint": "eslint .",

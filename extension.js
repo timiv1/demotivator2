@@ -23,14 +23,8 @@ function activate(context) {
 	// Now provide the implementation of the command with  registerCommand
 	// The commandId parameter must match the command field in package.json
 
-<<<<<<< HEAD
-
 	let debug_start = vscode.debug.onDidChangeActiveDebugSession(function () {
 		vscode.window.showInformationMessage("Real programmers don't have to debug");
-=======
-	let debug_start = vscode.debug.onDidChangeActiveDebugSession(function(){
-				vscode.window.showInformationMessage("Real programmers don't have to debug");
->>>>>>> 8171a638e9bf8d1ea6be3b7d9ef8a53944d50999
 	})
 
 	let disposable = vscode.commands.registerCommand('demotivator2.helloWorld', function () {
@@ -39,8 +33,6 @@ function activate(context) {
 		// Display a message box to the user
 		vscode.window.showInformationMessage('Hello World from demotivator_v2!');
 	});
-
-<<<<<<< HEAD
 
 	// Register a command to remove semicolons from the active editor.
 	const removeSemicolonsCommand = vscode.commands.registerCommand('extension.removeSemicolons', function () {
@@ -79,14 +71,9 @@ function activate(context) {
 		return vscode.workspace.applyEdit(edit);
 	  });
 
-	context.subscriptions.push(disposable, debug_start, removeSemicolonsCommand,replaceVariablesWithFunnyNamesCommand);
-=======
-	//Plays random sound once per 15seconds.
-	//TODO: add/remove some sounds (format is .vaw)
-	setInterval(playRandomSound, 15000); 
+	  setInterval(playRandomSound, 15000); 
 
-	context.subscriptions.push(disposable,debug_start);
->>>>>>> 8171a638e9bf8d1ea6be3b7d9ef8a53944d50999
+	context.subscriptions.push(disposable, debug_start, removeSemicolonsCommand,replaceVariablesWithFunnyNamesCommand);
 }
 
 function read_output() { }
