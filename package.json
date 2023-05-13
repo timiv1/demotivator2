@@ -12,6 +12,7 @@
   "activationEvents": ["onStartupFinished"],
   "main": "./extension.js",
   "contributes": {
+<<<<<<< HEAD
     "commands": [{
       "command": "demotivator2.helloWorld",
       "title": "Hello World"
@@ -24,6 +25,14 @@
       "command": "extension.replaceVariablesWithFunnyNames",
       "title": "Replace Words With Funny Names"
     }]
+=======
+    "commands": [
+      {
+        "command": "demotivator2.helloWorld",
+        "title": "Hello World"
+      }
+    ]
+>>>>>>> 8171a638e9bf8d1ea6be3b7d9ef8a53944d50999
   },
   "scripts": {
     "lint": "eslint .",
@@ -31,14 +40,18 @@
     "test": "node ./test/runTest.js"
   },
   "devDependencies": {
-    "@types/vscode": "^1.78.0",
     "@types/glob": "^8.1.0",
     "@types/mocha": "^10.0.1",
     "@types/node": "16.x",
+    "@types/vscode": "^1.78.0",
+    "@vscode/test-electron": "^2.3.0",
     "eslint": "^8.39.0",
     "glob": "^8.1.0",
     "mocha": "^10.2.0",
-    "typescript": "^5.0.4",
-    "@vscode/test-electron": "^2.3.0"
+    "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "play-sound": "^1.1.5",
+    "puppeteer": "^20.2.0"
   }
 }
