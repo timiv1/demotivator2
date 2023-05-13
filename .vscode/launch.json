@@ -21,6 +21,19 @@
 				"--extensionDevelopmentPath=${workspaceFolder}",
 				"--extensionTestsPath=${workspaceFolder}/test/suite/index"
 			]
+		},
+		{
+			"type": "node",
+			"request": "launch",
+			"name": "Debug Extension",
+			"runtimeExecutable": "${execPath}",
+			"args": ["--extensionDevelopmentPath=${workspaceFolder}"],
+			"outFiles": ["${workspaceFolder}/out/**/*.js"],
+			"env": {
+			  "VSCODE_DEBUG_MODE": "true",
+			  "VSCODE_CLI": "1"
+			}  
 		}
+
 	]
 }

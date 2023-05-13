@@ -23,14 +23,9 @@ function activate(context) {
 	// Now provide the implementation of the command with  registerCommand
 	// The commandId parameter must match the command field in package.json
 
-<<<<<<< HEAD
 
 	let debug_start = vscode.debug.onDidChangeActiveDebugSession(function () {
 		vscode.window.showInformationMessage("Real programmers don't have to debug");
-=======
-	let debug_start = vscode.debug.onDidChangeActiveDebugSession(function(){
-				vscode.window.showInformationMessage("Real programmers don't have to debug");
->>>>>>> 8171a638e9bf8d1ea6be3b7d9ef8a53944d50999
 	})
 
 	let disposable = vscode.commands.registerCommand('demotivator2.helloWorld', function () {
@@ -40,7 +35,6 @@ function activate(context) {
 		vscode.window.showInformationMessage('Hello World from demotivator_v2!');
 	});
 
-<<<<<<< HEAD
 
 	// Register a command to remove semicolons from the active editor.
 	const removeSemicolonsCommand = vscode.commands.registerCommand('extension.removeSemicolons', function () {
@@ -72,21 +66,40 @@ function activate(context) {
 		  const randomIndex = Math.floor(Math.random() * funnyNames.length);
 		  return funnyNames[randomIndex];
 		});
+
 	
 		// Update the text editor with the modified code
 		const edit = new vscode.WorkspaceEdit();
 		edit.replace(document.uri, new vscode.Range(0, 0, document.lineCount, 0), modifiedCode);
 		return vscode.workspace.applyEdit(edit);
 	  });
+	  let totalErrors = 0;
 
-	context.subscriptions.push(disposable, debug_start, removeSemicolonsCommand,replaceVariablesWithFunnyNamesCommand);
-=======
+	  const errorRegex = /(Uncaught\s+[^\s]+\s+)?(Error|TypeError|ReferenceError):\s(.+)/gi;
+	  
+	  const countConsoleErrors = vscode.debug.onDidTerminateDebugSession(async function (session) {
+		const consoleOutput = session.configuration.console;
+		if (consoleOutput === 'internalConsole') {
+		  // Get all debug console output
+		  const debugConsole = vscode.debug.activeDebugConsole;
+		  const terminalText = await debugConsole.getOutput();
+	  
+		  // Count the number of console errors in the terminal text
+		  const errorCount = (terminalText.match(errorRegex) || []).length;
+	  
+		  // Add the error count to the total and display it
+		  totalErrors += errorCount;
+		  vscode.window.showInformationMessage(`Total errors: ${totalErrors}`);
+		}
+	  });
+
+
+	context.subscriptions.push(disposable, debug_start, removeSemicolonsCommand,replaceVariablesWithFunnyNamesCommand,countConsoleErrors);
 	//Plays random sound once per 15seconds.
 	//TODO: add/remove some sounds (format is .vaw)
 	setInterval(playRandomSound, 15000); 
 
 	context.subscriptions.push(disposable,debug_start);
->>>>>>> 8171a638e9bf8d1ea6be3b7d9ef8a53944d50999
 }
 
 function read_output() { }
