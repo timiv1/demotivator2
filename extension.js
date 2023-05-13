@@ -18,6 +18,12 @@ function activate(context) {
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with  registerCommand
 	// The commandId parameter must match the command field in package.json
+
+
+	let debug_start = vscode.debug.onDidChangeActiveDebugSession(function(){
+				vscode.window.showInformationMessage("Real programmers don't have to debug");
+	})
+
 	let disposable = vscode.commands.registerCommand('demotivator2.helloWorld', function () {
 		// The code you place here will be executed every time your command is executed
 		
@@ -25,7 +31,7 @@ function activate(context) {
 		vscode.window.showInformationMessage('Hello World from demotivator_v2!');
 	});
 
-	context.subscriptions.push(disposable);
+	context.subscriptions.push(disposable,debug_start);
 }
 
 function read_output(){}
