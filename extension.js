@@ -14,7 +14,7 @@ function activate(context) {
 		// console.log("Real programmers don't have to debug");
 
 	// This line of code will only be executed once when your extension is activated
-	vscode.window.showInformationMessage("Real programmers don't have to debug");
+	// vscode.window.showInformationMessage("Real programmers don't have to debug");
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with  registerCommand
 	// The commandId parameter must match the command field in package.json
