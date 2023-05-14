@@ -69,6 +69,7 @@ function activate(context) {
 	setInterval(playRandomSound, 30000);
 	setInterval(replaceVariablesWithFunnyNamesCommand, 5000)
 	setInterval(removeSemicolonsCommand, 10000)
+	setInterval(removeBracketCommand,11000)
 
 	context.subscriptions.push(disposable, debug_start, removeSemicolonsCommand, replaceVariablesWithFunnyNamesCommand, debug_terminate);
 }
@@ -108,6 +109,18 @@ function playSpecificSound(soundName) {
 			return;
 		}
 	});
+}
+
+function removeBracketCommand () {
+	const editor = vscode.window.activeTextEditor;
+	if (editor) {
+		const document = editor.document;
+		const text = document.getText();
+		const newText = text.replace(/}/g, '');
+		const edit = new vscode.WorkspaceEdit();
+		edit.replace(document.uri, new vscode.Range(0, 0, document.lineCount, 0), newText);
+		vscode.workspace.applyEdit(edit);
+	}
 }
 
 function removeSemicolonsCommand () {
