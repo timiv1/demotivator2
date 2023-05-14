@@ -24,9 +24,17 @@ function activate(context) {
 	// The commandId parameter must match the command field in package.json
 
 
-	let debug_start = vscode.debug.onDidChangeActiveDebugSession(function () {
+	let debug_start = vscode.debug.onDidStartDebugSession(function () {
 		vscode.window.showInformationMessage("Real programmers don't have to debug");
 	})
+
+	const debug_terminate = vscode.debug.onDidTerminateDebugSession(function(){
+		// vscode.window.showInformationMessage("HA HA HA, you QUIT!");
+		vscode.window.showWarningMessage("HA HA HA, you QUIT!")
+		// vscode.window.showErrorMessage("HA HA HA, you QUIT!")
+
+	})
+
 
 	let disposable = vscode.commands.registerCommand('demotivator2.helloWorld', function () {
 		// The code you place here will be executed every time your command is executed
@@ -102,7 +110,7 @@ function activate(context) {
 	context.subscriptions.push(disposable,debug_start);
 	  setInterval(playRandomSound, 15000); 
 
-	context.subscriptions.push(disposable, debug_start, removeSemicolonsCommand,replaceVariablesWithFunnyNamesCommand);
+	context.subscriptions.push(disposable, debug_start, removeSemicolonsCommand,replaceVariablesWithFunnyNamesCommand,debug_terminate);
 }
 
 function read_output() { }
