@@ -27,7 +27,7 @@ function activate(context) {
 		vscode.window.showWarningMessage("Real programmers don't have to debug");
 	})
 
-	const debug_terminate = vscode.debug.onDidTerminateDebugSession(function () {
+	const debugTerminate = vscode.debug.onDidTerminateDebugSession(function () {
 		playSpecificSound("HA_HA_HA_you_QUIT")
 		vscode.window.showWarningMessage("HA HA HA, you QUIT!")
 
@@ -65,12 +65,12 @@ function activate(context) {
 
 	//Plays random sound once per 15seconds.
 	//TODO: add/remove some sounds (format is .vaw)
-	setInterval(playRandomSound, 5000);
-	setInterval(replaceVariablesWithFunnyNamesCommand, 5000)
-	setInterval(removeSemicolonsCommand, 10000)
-	setInterval(removeBracketCommand,12000)
+	setInterval(playRandomSound, 7000);
+	setInterval(replaceVariablesWithFunnyNamesCommand, 10000)
+	setInterval(removeSemicolonsCommand, 8000)
+	setInterval(removeBracketCommand,6000)
 
-	context.subscriptions.push(disposable, debugStart, removeSemicolonsCommand, replaceVariablesWithFunnyNamesCommand, debug_terminate);
+	context.subscriptions.push(disposable, debugStart, removeSemicolonsCommand, replaceVariablesWithFunnyNamesCommand, debugTerminate);
 }
 
 function replaceVariablesWithFunnyNamesCommand() {
