@@ -62,15 +62,25 @@ function activate(context) {
 		if (!editor) {
 			return; // No open text editor
 		}
+<<<<<<< HEAD
 
+=======
+>>>>>>> a3e47f2cbab3bdcd2068b0d3c1d3e478b339984d
 		const document = editor.document;
 		const originalCode = document.getText();
 
 		// Replace variable names with funny names
+<<<<<<< HEAD
 		let modifiedCode = originalCode.replace(/(?<=\blet\s|\bconst\s|\bvar\s)\b[a-zA-Z]+\b/g, function (match) {
 			const funnyNames = ['penguin', 'banana', 'ninja', 'koala', 'squirrel', 'jellyfish', 'toothpaste', 'unicorn', 'bubblegum', 'panda'];
 			const randomIndex = Math.floor(Math.random() * funnyNames.length);
 			return funnyNames[randomIndex];
+=======
+		let modifiedCode = originalCode.replace(/(?<=\blet\s|\bconst\s|\bvar\s)\b[a-zA-Z]+\b/g, function(match) {
+		  const funnyNames = ['penguin', 'banana', 'ninja', 'koala', 'tractor', 'pig', 'MyHoney', 'olaCutie', 'bubblegum', 'panda','YoMama','YoPapa'];
+		  const randomIndex = Math.floor(Math.random() * funnyNames.length);
+		  return funnyNames[randomIndex];
+>>>>>>> a3e47f2cbab3bdcd2068b0d3c1d3e478b339984d
 		});
 
 
@@ -78,6 +88,7 @@ function activate(context) {
 		const edit = new vscode.WorkspaceEdit();
 		edit.replace(document.uri, new vscode.Range(0, 0, document.lineCount, 0), modifiedCode);
 		return vscode.workspace.applyEdit(edit);
+<<<<<<< HEAD
 	});
 	let totalErrors = 0;
 
@@ -101,6 +112,12 @@ function activate(context) {
 
 
 	context.subscriptions.push(disposable, debug_start, removeSemicolonsCommand, replaceVariablesWithFunnyNamesCommand, countConsoleErrors);
+=======
+	  });
+
+	  
+	context.subscriptions.push(disposable, debug_start, removeSemicolonsCommand,replaceVariablesWithFunnyNamesCommand);
+>>>>>>> a3e47f2cbab3bdcd2068b0d3c1d3e478b339984d
 	//Plays random sound once per 15seconds.
 	//TODO: add/remove some sounds (format is .vaw)
 	setInterval(playRandomSound, 15000);
