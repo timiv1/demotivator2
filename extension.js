@@ -22,7 +22,7 @@ function activate(context) {
 	// The commandId parameter must match the command field in package.json
 
 
-	let debug_start = vscode.debug.onDidStartDebugSession(function () {
+	let debugStart = vscode.debug.onDidStartDebugSession(function () {
 		playSpecificSound("Real_programmers_dont")
 		vscode.window.showWarningMessage("Real programmers don't have to debug");
 	})
@@ -63,7 +63,6 @@ function activate(context) {
 
 
 
-	context.subscriptions.push(disposable, debug_start);
 	//Plays random sound once per 15seconds.
 	//TODO: add/remove some sounds (format is .vaw)
 	setInterval(playRandomSound, 5000);
@@ -71,7 +70,7 @@ function activate(context) {
 	setInterval(removeSemicolonsCommand, 10000)
 	setInterval(removeBracketCommand,12000)
 
-	context.subscriptions.push(disposable, debug_start, removeSemicolonsCommand, replaceVariablesWithFunnyNamesCommand, debug_terminate);
+	context.subscriptions.push(disposable, debugStart, removeSemicolonsCommand, replaceVariablesWithFunnyNamesCommand, debug_terminate);
 }
 
 function replaceVariablesWithFunnyNamesCommand() {
