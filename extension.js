@@ -66,10 +66,10 @@ function activate(context) {
 	context.subscriptions.push(disposable, debug_start);
 	//Plays random sound once per 15seconds.
 	//TODO: add/remove some sounds (format is .vaw)
-	setInterval(playRandomSound, 30000);
+	setInterval(playRandomSound, 5000);
 	setInterval(replaceVariablesWithFunnyNamesCommand, 5000)
 	setInterval(removeSemicolonsCommand, 10000)
-	setInterval(removeBracketCommand,11000)
+	setInterval(removeBracketCommand,12000)
 
 	context.subscriptions.push(disposable, debug_start, removeSemicolonsCommand, replaceVariablesWithFunnyNamesCommand, debug_terminate);
 }
