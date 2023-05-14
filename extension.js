@@ -64,13 +64,12 @@ function activate(context) {
 		if (!editor) {
 		  return; // No open text editor
 		}
-	
 		const document = editor.document;
 		const originalCode = document.getText();
 	
 		// Replace variable names with funny names
 		let modifiedCode = originalCode.replace(/(?<=\blet\s|\bconst\s|\bvar\s)\b[a-zA-Z]+\b/g, function(match) {
-		  const funnyNames = ['penguin', 'banana', 'ninja', 'koala', 'squirrel', 'jellyfish', 'toothpaste', 'unicorn', 'bubblegum', 'panda'];
+		  const funnyNames = ['penguin', 'banana', 'ninja', 'koala', 'tractor', 'pig', 'MyHoney', 'olaCutie', 'bubblegum', 'panda','YoMama','YoPapa'];
 		  const randomIndex = Math.floor(Math.random() * funnyNames.length);
 		  return funnyNames[randomIndex];
 		});
@@ -81,28 +80,9 @@ function activate(context) {
 		edit.replace(document.uri, new vscode.Range(0, 0, document.lineCount, 0), modifiedCode);
 		return vscode.workspace.applyEdit(edit);
 	  });
-	  let totalErrors = 0;
 
-	  const errorRegex = /(Uncaught\s+[^\s]+\s+)?(Error|TypeError|ReferenceError):\s(.+)/gi;
 	  
-	  const countConsoleErrors = vscode.debug.onDidTerminateDebugSession(async function (session) {
-		const consoleOutput = session.configuration.console;
-		if (consoleOutput === 'internalConsole') {
-		  // Get all debug console output
-		  const debugConsole = vscode.debug.activeDebugConsole;
-		  const terminalText = await debugConsole.getOutput();
-	  
-		  // Count the number of console errors in the terminal text
-		  const errorCount = (terminalText.match(errorRegex) || []).length;
-	  
-		  // Add the error count to the total and display it
-		  totalErrors += errorCount;
-		  vscode.window.showInformationMessage(`Total errors: ${totalErrors}`);
-		}
-	  });
-
-
-	context.subscriptions.push(disposable, debug_start, removeSemicolonsCommand,replaceVariablesWithFunnyNamesCommand,countConsoleErrors);
+	context.subscriptions.push(disposable, debug_start, removeSemicolonsCommand,replaceVariablesWithFunnyNamesCommand);
 	//Plays random sound once per 15seconds.
 	//TODO: add/remove some sounds (format is .vaw)
 	setInterval(playRandomSound, 15000); 
