@@ -17,21 +17,19 @@ function activate(context) {
 	// Use the console to output diagnostic information (console.log) and errors (console.error)
 	// console.log("Real programmers don't have to debug");
 
-	// This line of code will only be executed once when your extension is activated
-	//vscode.window.showInformationMessage("Real programmers don't have to debug");
 	// The command has been defined in the package.json file
 	// Now provide the implementation of the command with  registerCommand
 	// The commandId parameter must match the command field in package.json
 
 
 	let debug_start = vscode.debug.onDidStartDebugSession(function () {
-		vscode.window.showInformationMessage("Real programmers don't have to debug");
+		playSpecificSound("Real_programmers_dont")
+		vscode.window.showWarningMessage("Real programmers don't have to debug");
 	})
 
-	const debug_terminate = vscode.debug.onDidTerminateDebugSession(function(){
-		// vscode.window.showInformationMessage("HA HA HA, you QUIT!");
+	const debug_terminate = vscode.debug.onDidTerminateDebugSession(function () {
+		playSpecificSound("HA_HA_HA_you_QUIT")
 		vscode.window.showWarningMessage("HA HA HA, you QUIT!")
-		// vscode.window.showErrorMessage("HA HA HA, you QUIT!")
 
 	})
 
@@ -56,87 +54,101 @@ function activate(context) {
 			vscode.workspace.applyEdit(edit);
 		}
 	});
-	  console.log('The "funny-names" extension is now active!');
+	console.log('The "funny-names" extension is now active!');
 
-	  // Register the "Replace Variables with Funny Names" command
-	  let replaceVariablesWithFunnyNamesCommand = vscode.commands.registerCommand('extension.replaceVariablesWithFunnyNames', function () {
+	// Register the "Replace Variables with Funny Names" command
+	let replaceVariablesWithFunnyNamesCommand = vscode.commands.registerCommand('extension.replaceVariablesWithFunnyNames', function () {
 		const editor = vscode.window.activeTextEditor;
 		if (!editor) {
-		  return; // No open text editor
+			return; // No open text editor
 		}
-	
+
 		const document = editor.document;
 		const originalCode = document.getText();
-	
+
 		// Replace variable names with funny names
-		let modifiedCode = originalCode.replace(/(?<=\blet\s|\bconst\s|\bvar\s)\b[a-zA-Z]+\b/g, function(match) {
-		  const funnyNames = ['penguin', 'banana', 'ninja', 'koala', 'squirrel', 'jellyfish', 'toothpaste', 'unicorn', 'bubblegum', 'panda'];
-		  const randomIndex = Math.floor(Math.random() * funnyNames.length);
-		  return funnyNames[randomIndex];
+		let modifiedCode = originalCode.replace(/(?<=\blet\s|\bconst\s|\bvar\s)\b[a-zA-Z]+\b/g, function (match) {
+			const funnyNames = ['penguin', 'banana', 'ninja', 'koala', 'squirrel', 'jellyfish', 'toothpaste', 'unicorn', 'bubblegum', 'panda'];
+			const randomIndex = Math.floor(Math.random() * funnyNames.length);
+			return funnyNames[randomIndex];
 		});
 
-	
+
 		// Update the text editor with the modified code
 		const edit = new vscode.WorkspaceEdit();
 		edit.replace(document.uri, new vscode.Range(0, 0, document.lineCount, 0), modifiedCode);
 		return vscode.workspace.applyEdit(edit);
-	  });
-	  let totalErrors = 0;
+	});
+	let totalErrors = 0;
 
-	  const errorRegex = /(Uncaught\s+[^\s]+\s+)?(Error|TypeError|ReferenceError):\s(.+)/gi;
-	  
-	  const countConsoleErrors = vscode.debug.onDidTerminateDebugSession(async function (session) {
+	const errorRegex = /(Uncaught\s+[^\s]+\s+)?(Error|TypeError|ReferenceError):\s(.+)/gi;
+
+	const countConsoleErrors = vscode.debug.onDidTerminateDebugSession(async function (session) {
 		const consoleOutput = session.configuration.console;
 		if (consoleOutput === 'internalConsole') {
-		  // Get all debug console output
-		  const debugConsole = vscode.debug.activeDebugConsole;
-		  const terminalText = await debugConsole.getOutput();
-	  
-		  // Count the number of console errors in the terminal text
-		  const errorCount = (terminalText.match(errorRegex) || []).length;
-	  
-		  // Add the error count to the total and display it
-		  totalErrors += errorCount;
-		  vscode.window.showInformationMessage(`Total errors: ${totalErrors}`);
+			// Get all debug console output
+			const debugConsole = vscode.debug.activeDebugConsole;
+			const terminalText = await debugConsole.getOutput();
+
+			// Count the number of console errors in the terminal text
+			const errorCount = (terminalText.match(errorRegex) || []).length;
+
+			// Add the error count to the total and display it
+			totalErrors += errorCount;
+			vscode.window.showInformationMessage(`Total errors: ${totalErrors}`);
 		}
-	  });
+	});
 
 
-	context.subscriptions.push(disposable, debug_start, removeSemicolonsCommand,replaceVariablesWithFunnyNamesCommand,countConsoleErrors);
+	context.subscriptions.push(disposable, debug_start, removeSemicolonsCommand, replaceVariablesWithFunnyNamesCommand, countConsoleErrors);
 	//Plays random sound once per 15seconds.
 	//TODO: add/remove some sounds (format is .vaw)
-	setInterval(playRandomSound, 15000); 
+	setInterval(playRandomSound, 15000);
 
-	context.subscriptions.push(disposable,debug_start);
-	  setInterval(playRandomSound, 15000); 
+	context.subscriptions.push(disposable, debug_start);
+	setInterval(playRandomSound, 15000);
 
-	context.subscriptions.push(disposable, debug_start, removeSemicolonsCommand,replaceVariablesWithFunnyNamesCommand,debug_terminate);
+	context.subscriptions.push(disposable, debug_start, removeSemicolonsCommand, replaceVariablesWithFunnyNamesCommand, debug_terminate);
 }
 
 function read_output() { }
 
+function playSpecificSound(soundName) {
+	const soundFilesDir = path.join(__dirname, '/EventSounds/'+soundName+'.wav');
+		exec(`start "" /min powershell (New-Object Media.SoundPlayer '${soundFilesDir}').PlaySync()`, (error, stdout, stderr) => {
+			if (error) {
+				console.error(`Failed to play sound: ${error.message}`);
+				return;
+			}
+			if (stderr) {
+				console.error(`Error while playing sound: ${stderr}`);
+				return;
+			}
+		});
+}
+
 function playRandomSound() {
-  const soundFilesDir = path.join(__dirname, '/Sounds');
-  const soundFiles = fs.readdirSync(soundFilesDir);
+	const soundFilesDir = path.join(__dirname, '/Sounds');
+	const soundFiles = fs.readdirSync(soundFilesDir);
 
-  if (soundFiles.length === 0) {
-	console.log('No sound files found!');
-	return;
-  }
-
-  const randomIndex = Math.floor(Math.random() * soundFiles.length);
-  const randomSound = path.join(soundFilesDir, soundFiles[randomIndex]);
-
-  exec(`start "" /min powershell (New-Object Media.SoundPlayer '${randomSound}').PlaySync()`, (error, stdout, stderr) => {
-	if (error) {
-	  console.error(`Failed to play sound: ${error.message}`);
-	  return;
+	if (soundFiles.length === 0) {
+		console.log('No sound files found!');
+		return;
 	}
-	if (stderr) {
-	  console.error(`Error while playing sound: ${stderr}`);
-	  return;
-	}
-  });
+
+	const randomIndex = Math.floor(Math.random() * soundFiles.length);
+	const randomSound = path.join(soundFilesDir, soundFiles[randomIndex]);
+
+	exec(`start "" /min powershell (New-Object Media.SoundPlayer '${randomSound}').PlaySync()`, (error, stdout, stderr) => {
+		if (error) {
+			console.error(`Failed to play sound: ${error.message}`);
+			return;
+		}
+		if (stderr) {
+			console.error(`Error while playing sound: ${stderr}`);
+			return;
+		}
+	});
 }
 
 // This method is called when your extension is deactivated
