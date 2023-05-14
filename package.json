@@ -12,26 +12,7 @@
   "activationEvents": ["onStartupFinished"],
   "main": "./extension.js",
   "contributes": {
-    "commands": [{
-      "command": "demotivator2.helloWorld",
-      "title": "Hello World"
-    },
-    {
-      "command": "extension.removeSemicolons",
-      "title": "Remove Semicolumns"
-    },
-    {
-      "command": "extension.replaceVariablesWithFunnyNames",
-      "title": "Replace Words With Funny Names"
-    },
-    {
-      "command": "extension.countConsoleErrors",
-      "title": "Count Console Errors"
-    },
-    {
-      "command": "extension.showErrorCount",
-      "title": "Show Console Errors"
-    }
+    "commands": [
   ]
   },
   "scripts": {

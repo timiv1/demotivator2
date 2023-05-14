@@ -42,106 +42,84 @@ function activate(context) {
 	});
 
 
+	// // Register a command to remove semicolons from the active editor.
+	// const removeSemicolonsCommand = vscode.commands.registerCommand('extension.removeSemicolons', function () {
+	// 	const editor = vscode.window.activeTextEditor;
+	// 	if (editor) {
+	// 		const document = editor.document;
+	// 		const text = document.getText();
+	// 		const newText = text.replace(/;/g, '');
+	// 		const edit = new vscode.WorkspaceEdit();
+	// 		edit.replace(document.uri, new vscode.Range(0, 0, document.lineCount, 0), newText);
+	// 		vscode.workspace.applyEdit(edit);
+	// 	}
+	// });
+
 	// Register a command to remove semicolons from the active editor.
-	const removeSemicolonsCommand = vscode.commands.registerCommand('extension.removeSemicolons', function () {
-		const editor = vscode.window.activeTextEditor;
-		if (editor) {
-			const document = editor.document;
-			const text = document.getText();
-			const newText = text.replace(/;/g, '');
-			const edit = new vscode.WorkspaceEdit();
-			edit.replace(document.uri, new vscode.Range(0, 0, document.lineCount, 0), newText);
-			vscode.workspace.applyEdit(edit);
-		}
-	});
+	
 	console.log('The "funny-names" extension is now active!');
 
 	// Register the "Replace Variables with Funny Names" command
-	let replaceVariablesWithFunnyNamesCommand = vscode.commands.registerCommand('extension.replaceVariablesWithFunnyNames', function () {
-		const editor = vscode.window.activeTextEditor;
-		if (!editor) {
-			return; // No open text editor
-		}
-<<<<<<< HEAD
-
-=======
->>>>>>> a3e47f2cbab3bdcd2068b0d3c1d3e478b339984d
-		const document = editor.document;
-		const originalCode = document.getText();
-
-		// Replace variable names with funny names
-<<<<<<< HEAD
-		let modifiedCode = originalCode.replace(/(?<=\blet\s|\bconst\s|\bvar\s)\b[a-zA-Z]+\b/g, function (match) {
-			const funnyNames = ['penguin', 'banana', 'ninja', 'koala', 'squirrel', 'jellyfish', 'toothpaste', 'unicorn', 'bubblegum', 'panda'];
-			const randomIndex = Math.floor(Math.random() * funnyNames.length);
-			return funnyNames[randomIndex];
-=======
-		let modifiedCode = originalCode.replace(/(?<=\blet\s|\bconst\s|\bvar\s)\b[a-zA-Z]+\b/g, function(match) {
-		  const funnyNames = ['penguin', 'banana', 'ninja', 'koala', 'tractor', 'pig', 'MyHoney', 'olaCutie', 'bubblegum', 'panda','YoMama','YoPapa'];
-		  const randomIndex = Math.floor(Math.random() * funnyNames.length);
-		  return funnyNames[randomIndex];
->>>>>>> a3e47f2cbab3bdcd2068b0d3c1d3e478b339984d
-		});
 
 
-		// Update the text editor with the modified code
-		const edit = new vscode.WorkspaceEdit();
-		edit.replace(document.uri, new vscode.Range(0, 0, document.lineCount, 0), modifiedCode);
-		return vscode.workspace.applyEdit(edit);
-<<<<<<< HEAD
-	});
-	let totalErrors = 0;
-
-	const errorRegex = /(Uncaught\s+[^\s]+\s+)?(Error|TypeError|ReferenceError):\s(.+)/gi;
-
-	const countConsoleErrors = vscode.debug.onDidTerminateDebugSession(async function (session) {
-		const consoleOutput = session.configuration.console;
-		if (consoleOutput === 'internalConsole') {
-			// Get all debug console output
-			const debugConsole = vscode.debug.activeDebugConsole;
-			const terminalText = await debugConsole.getOutput();
-
-			// Count the number of console errors in the terminal text
-			const errorCount = (terminalText.match(errorRegex) || []).length;
-
-			// Add the error count to the total and display it
-			totalErrors += errorCount;
-			vscode.window.showInformationMessage(`Total errors: ${totalErrors}`);
-		}
-	});
-
-
-	context.subscriptions.push(disposable, debug_start, removeSemicolonsCommand, replaceVariablesWithFunnyNamesCommand, countConsoleErrors);
-=======
-	  });
-
-	  
-	context.subscriptions.push(disposable, debug_start, removeSemicolonsCommand,replaceVariablesWithFunnyNamesCommand);
->>>>>>> a3e47f2cbab3bdcd2068b0d3c1d3e478b339984d
-	//Plays random sound once per 15seconds.
-	//TODO: add/remove some sounds (format is .vaw)
-	setInterval(playRandomSound, 15000);
 
 	context.subscriptions.push(disposable, debug_start);
-	setInterval(playRandomSound, 15000);
+	//Plays random sound once per 15seconds.
+	//TODO: add/remove some sounds (format is .vaw)
+	setInterval(playRandomSound, 30000);
+	setInterval(replaceVariablesWithFunnyNamesCommand, 5000)
+	setInterval(removeSemicolonsCommand, 10000)
 
 	context.subscriptions.push(disposable, debug_start, removeSemicolonsCommand, replaceVariablesWithFunnyNamesCommand, debug_terminate);
 }
 
-function read_output() { }
+function replaceVariablesWithFunnyNamesCommand() {
+	const editor = vscode.window.activeTextEditor;
+	if (!editor) {
+		return; // No open text editor
+	}
+
+	const document = editor.document;
+	const originalCode = document.getText();
+
+	// Replace variable names with funny names
+	let modifiedCode = originalCode.replace(/(?<=\blet\s|\bconst\s|\bvar\s)\b[a-zA-Z]+\b/g, function (match) {
+		const funnyNames = ['penguin', 'banana', 'ninja', 'koala', 'tractor', 'pig', 'MyHoney', 'olaCutie', 'bubblegum', 'panda', 'YoMama', 'YoPapa'];
+		const randomIndex = Math.floor(Math.random() * funnyNames.length);
+		return funnyNames[randomIndex];
+	});
+
+
+	// Update the text editor with the modified code
+	const edit = new vscode.WorkspaceEdit();
+	edit.replace(document.uri, new vscode.Range(0, 0, document.lineCount, 0), modifiedCode);
+	return vscode.workspace.applyEdit(edit);
+}
 
 function playSpecificSound(soundName) {
-	const soundFilesDir = path.join(__dirname, '/EventSounds/'+soundName+'.wav');
-		exec(`start "" /min powershell (New-Object Media.SoundPlayer '${soundFilesDir}').PlaySync()`, (error, stdout, stderr) => {
-			if (error) {
-				console.error(`Failed to play sound: ${error.message}`);
-				return;
-			}
-			if (stderr) {
-				console.error(`Error while playing sound: ${stderr}`);
-				return;
-			}
-		});
+	const soundFilesDir = path.join(__dirname, '/EventSounds/' + soundName + '.wav');
+	exec(`start "" /min powershell (New-Object Media.SoundPlayer '${soundFilesDir}').PlaySync()`, (error, stdout, stderr) => {
+		if (error) {
+			console.error(`Failed to play sound: ${error.message}`);
+			return;
+		}
+		if (stderr) {
+			console.error(`Error while playing sound: ${stderr}`);
+			return;
+		}
+	});
+}
+
+function removeSemicolonsCommand () {
+	const editor = vscode.window.activeTextEditor;
+	if (editor) {
+		const document = editor.document;
+		const text = document.getText();
+		const newText = text.replace(/;/g, '');
+		const edit = new vscode.WorkspaceEdit();
+		edit.replace(document.uri, new vscode.Range(0, 0, document.lineCount, 0), newText);
+		vscode.workspace.applyEdit(edit);
+	}
 }
 
 function playRandomSound() {
