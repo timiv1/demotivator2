@@ -1,5 +1,7 @@
 # Demotivator
-
+<p align="center">
+<img src="https://github.com/timiv1/demotivator2/blob/master/images/mittens-full-sticker.png?raw=true"/>
+</p>
 <p align="center">
   <em>
     JavaScript
